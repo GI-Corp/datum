@@ -2,5 +2,5 @@
 Datum - simple social network application.
 
 ## to-do
-> rest api
+> rest api  
 > telegram bot
