@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+<body>
+    <h1>User details</h1>
+        <p>{{user.pk}}</p>
+        <p>{{user.username}}</p>
+        <p>{{user.email_user}}</p>
+        <p>{{user.is_staff}}</p>
+
+        <a href="{% url 'datum:profile' user.user_profile.pk %}">
+    <h1>User Profile Details</h1></a>
+        <p>{{user.user_profile.first_name}}</p>
+        <p>{{user.user_profile.last_name}}</p>
+        <p>{{user.user_profile.tg_username}}</p>
+        <p>{{user.user_profile.bio}}</p>
+        <p>{{user.user_profile.birthdate}}</p>
+        <p>{{user.user_profile.gender}}</p>
+        <p>{{user.user_profile.display_interests}}</p>
+
+        <a href="{% url 'datum:preference' user.user_preference.pk %}">
+    <h1>User Preferences</h1></a>
+        <p>{{user.user_preference.pref_min_age}}</p>
+        <p>{{user.user_preference.pref_max_age}}</p>
+
+</body>
+</html>
