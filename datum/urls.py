@@ -6,6 +6,7 @@ from .views import HomepageView, ProfileDetailView, UserDetailView, UserListView
 app_name = 'datum'
 
 urlpatterns = [
+    
     path('', views.DashboardView.as_view(), name='index'),
     path("your_matches/", views.UserMatchesListView.as_view(), name="matches"),
 

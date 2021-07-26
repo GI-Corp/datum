@@ -13,15 +13,15 @@
         <p>{{user.email_user}}</p>
         <p>{{user.is_staff}}</p>
 
-        <a href="{% url 'datum:profile' user.user_profile.pk %}">
+        <a href="{% url 'datum:profile' user.profile.pk %}">
     <h1>User Profile Details</h1></a>
-        <p>{{user.user_profile.first_name}}</p>
-        <p>{{user.user_profile.last_name}}</p>
-        <p>{{user.user_profile.tg_username}}</p>
-        <p>{{user.user_profile.bio}}</p>
-        <p>{{user.user_profile.birthdate}}</p>
-        <p>{{user.user_profile.gender}}</p>
-        <p>{{user.user_profile.display_interests}}</p>
+        <p>{{user.profile.first_name}}</p>
+        <p>{{user.profile.last_name}}</p>
+        <p>{{user.profile.tg_username}}</p>
+        <p>{{user.profile.bio}}</p>
+        <p>{{user.profile.birthdate}}</p>
+        <p>{{user.profile.gender}}</p>
+        <p>{{user.profile.display_interests}}</p>
 
         <a href="{% url 'datum:preference' user.user_preference.pk %}">
     <h1>User Preferences</h1></a>

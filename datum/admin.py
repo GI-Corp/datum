@@ -1,5 +1,5 @@
 from django.contrib import admin
-from DatumApp.models import Profile, Interest, Preference, Match
+from datum.models import Profile, Interest, Preference, Match
 # Register your models here.
 
 class ProfileAdmin(admin.ModelAdmin):

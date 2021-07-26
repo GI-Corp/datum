@@ -1,5 +1,5 @@
 """
-ASGI config for DatumSettings project.
+ASGI config for datum_settings project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DatumSettings.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'datum_settings.settings')
 
 application = get_asgi_application()

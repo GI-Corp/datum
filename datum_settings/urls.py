@@ -1,4 +1,4 @@
-"""DatumSettings URL Configuration
+"""datum_settings URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('DatumApp.urls', namespace='datum')),
-    
+    path('', include('datum.urls', namespace='datum')),
+    path('api/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls')), 
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

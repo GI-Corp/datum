@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>Profile Details</h1>
+        {% if profile.photo %}
+            <img src="{{profile.photo.url}}" alt="profile-photo" style="width: 200px;height:200px">
+        {% else %}
+            <p class="text">User does not have profile image</p>
+        {% endif %}
         <p>{{profile.first_name}}</p>
         <p>{{profile.last_name}}</p>
         <p>{{profile.tg_username}}</p>
