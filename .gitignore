@@ -14,7 +14,7 @@ media
 media_files
 vscode
 .env
-static
+!static
 venv
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
