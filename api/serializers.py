@@ -15,6 +15,21 @@ class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     
     class Meta:
-        models = Profile
+        model = Profile
+        fields = '__all__'
+
+class PreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Preference
+        fields = '__all__'
+
+class InterestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interest
+        fields = '__all__'
+
+class MatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Match
         fields = '__all__'
 

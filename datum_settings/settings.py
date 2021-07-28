@@ -151,3 +151,8 @@ MESSAGE_TAGS = {
 LOGIN_REDIRECT_URL = 'datum:index' # URL redirecting after a successful authentication
 LOGIN_URL='datum:login'
 LOGOUT_REDIRECT_URL ='datum:logout'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
+}
