@@ -1,0 +1,1571 @@
+{
+	"info": {
+		"_postman_id": "6b2cfe67-b723-408b-9c6e-56dc38c56a35",
+		"name": "Datum API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "List of users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/users/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get a user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "{{currentUserId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{currentUserId}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create an user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user is created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"password\": \"12345\",\r\n    \"last_login\": null,\r\n    \"is_superuser\": false,\r\n    \"username\": \"testuser2\",\r\n    \"first_name\": \"user\",\r\n    \"last_name\": \"username\",\r\n    \"email\": \"testingyou@gmail.com\",\r\n    \"is_staff\": false,\r\n    \"is_active\": false,\r\n    \"date_joined\": \"2021-07-09T15:10:26.428022+05:00\",\r\n    \"groups\": [],\r\n    \"user_permissions\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"User is updated\", () =>\r",
+									"{\r",
+									"    pm.response.to.have.status(200)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"last_name\": \"POSTMAN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/:userId/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								""
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user is deleted.\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/:userId/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								""
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profiles",
+			"item": [
+				{
+					"name": "List of profiles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"profiles",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of profiles",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/profiles/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"profiles",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get a profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/:profileId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"profiles",
+								":profileId"
+							],
+							"variable": [
+								{
+									"key": "profileId",
+									"value": "{{currentUserId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/profiles/:profileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"profiles",
+										":profileId"
+									],
+									"variable": [
+										{
+											"key": "profileId",
+											"value": "{{currentUserId}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create a profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The profile is created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"first_name\": \"POSTMAN\",\r\n    \"last_name\": \"POSTMAN\",\r\n    \"birthdate\": \"1996-09-05\",\r\n    \"gender\": \"Female\",\r\n    \"tg_username\": \"POSTMAN\",\r\n    \"bio\": \"hey, i like vr tech\",\r\n    \"registered_date\": \"2021-07-09T15:09:18.326311+05:00\",\r\n    \"last_update_date\": \"2021-07-09T15:12:05.129787+05:00\",\r\n    \"user\": 4,\r\n    \"interest\": [\r\n        1,\r\n        2,\r\n        3,\r\n        7\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"profiles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Profile is updated\", () =>\r",
+									"{\r",
+									"    pm.response.to.have.status(200)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"last_name\": \"Gulomov\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/:profileId/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"profiles",
+								":profileId",
+								""
+							],
+							"variable": [
+								{
+									"key": "profileId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The profile is deleted.\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/:profileId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"profiles",
+								":profileId"
+							],
+							"variable": [
+								{
+									"key": "profileId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Preference",
+			"item": [
+				{
+					"name": "List of preferences",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"profiles",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of preferences",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/profiles/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"profiles",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 03 Aug 2021 07:54:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.9.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1137"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 3,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1,\n            \"first_name\": \"Islombek\",\n            \"last_name\": \"Gulomkodirov\",\n            \"birthdate\": \"1998-12-30\",\n            \"gender\": \"Male\",\n            \"tg_username\": \"@gi_corp\",\n            \"photo\": \"http://127.0.0.1:8000/media_files/user_photos/2021/profile-photo_0dZiHWA.jpg\",\n            \"bio\": \"make it simple, damn\",\n            \"registered_date\": \"2021-07-09T13:47:08+05:00\",\n            \"last_update_date\": \"2021-07-09T15:22:40.427774+05:00\",\n            \"user\": 1,\n            \"interest\": [\n                1,\n                2,\n                3,\n                6\n            ]\n        },\n        {\n            \"id\": 3,\n            \"first_name\": \"Mira\",\n            \"last_name\": \"Skendraio\",\n            \"birthdate\": \"1996-09-05\",\n            \"gender\": \"Female\",\n            \"tg_username\": \"Mira\",\n            \"photo\": \"http://127.0.0.1:8000/media_files/user_photos/2021/4_AFj9UrE.jpg\",\n            \"bio\": \"hey, i like vr tech\",\n            \"registered_date\": \"2021-07-09T15:09:18.326311+05:00\",\n            \"last_update_date\": \"2021-07-09T15:12:05.129787+05:00\",\n            \"user\": 4,\n            \"interest\": [\n                1,\n                2,\n                3,\n                7\n            ]\n        },\n        {\n            \"id\": 4,\n            \"first_name\": \"Mark\",\n            \"last_name\": \"Walberg\",\n            \"birthdate\": \"1983-05-22\",\n            \"gender\": \"Male\",\n            \"tg_username\": \"Mark\",\n            \"photo\": \"http://127.0.0.1:8000/media_files/user_photos/2021/Mark_Wahlberg_2017.jpg\",\n            \"bio\": \"Hey, i'm an actor.\",\n            \"registered_date\": \"2021-07-13T14:21:17.584114+05:00\",\n            \"last_update_date\": \"2021-07-13T14:24:12.218865+05:00\",\n            \"user\": 5,\n            \"interest\": [\n                3,\n                4\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a preference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preferences/:preferenceId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preferences",
+								":preferenceId"
+							],
+							"variable": [
+								{
+									"key": "preferenceId",
+									"value": "{{currentUserId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a preference",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/preferences/:preferenceId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"preferences",
+										":preferenceId"
+									],
+									"variable": [
+										{
+											"key": "preferenceId",
+											"value": "{{currentUserId}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create a preference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The preference is created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"pref_min_age\": 18,\r\n    \"pref_max_age\": 23,\r\n    \"user\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/preferences/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preferences",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a preference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Preference is updated.\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"pref_min_age\": 19,\r\n    \"pref_max_age\": 25,\r\n    \"user\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "javascript"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/preferences/:preferenceId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preferences",
+								":preferenceId"
+							],
+							"variable": [
+								{
+									"key": "preferenceId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a preference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Preference is deleted.\", () => {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preferences/:preferenceId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preferences",
+								":preferenceId"
+							],
+							"variable": [
+								{
+									"key": "preferenceId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Interests",
+			"item": [
+				{
+					"name": "List of interests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/interests/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"interests",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of interests",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/interests/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"interests",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 03 Aug 2021 07:55:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.9.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "373"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 7,\n    \"next\": \"http://127.0.0.1:8000/api/interests/?page=2\",\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1,\n            \"interest_title\": \"Programming\",\n            \"is_available\": true\n        },\n        {\n            \"id\": 2,\n            \"interest_title\": \"Music\",\n            \"is_available\": true\n        },\n        {\n            \"id\": 3,\n            \"interest_title\": \"Sports\",\n            \"is_available\": true\n        },\n        {\n            \"id\": 4,\n            \"interest_title\": \"Surfing\",\n            \"is_available\": true\n        },\n        {\n            \"id\": 6,\n            \"interest_title\": \"Drawing\",\n            \"is_available\": true\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get an interest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/interests/:interestId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"interests",
+								":interestId"
+							],
+							"variable": [
+								{
+									"key": "interestId",
+									"value": "{{currentUserId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get an interest",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/interests/:interestId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"interests",
+										":interestId"
+									],
+									"variable": [
+										{
+											"key": "interestId",
+											"value": "{{currentUserId}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create an interest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The interest is created\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"interest_title\": \"Themodynamics\",\r\n    \"is_available\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/interests/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"interests",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update interest",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"interest_title\": \"\",\r\n    \"is_available\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/interests/:interestId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"interests",
+								":interestId"
+							],
+							"variable": [
+								{
+									"key": "interestId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an interest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The interest is deleted.\", () => {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/interests/:interestId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"interests",
+								":interestId"
+							],
+							"variable": [
+								{
+									"key": "interestId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "List of matches",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/matches/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"matches",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of matches",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/matches/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"matches",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 03 Aug 2021 07:55:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.9.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "218"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1,\n            \"user_accepted\": true,\n            \"is_active\": true,\n            \"current_user\": 1,\n            \"user_requested\": 4\n        },\n        {\n            \"id\": 2,\n            \"user_accepted\": false,\n            \"is_active\": true,\n            \"current_user\": 4,\n            \"user_requested\": 5\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a match",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/matches/:matchId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"matches",
+								":matchId"
+							],
+							"variable": [
+								{
+									"key": "matchId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a match",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/matches/:matchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"matches",
+										":matchId"
+									],
+									"variable": [
+										{
+											"key": "matchId",
+											"value": "{{currentUserId}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create a match",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The match is created.\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"user_accepted\": false,\r\n    \"is_active\": false,\r\n    \"current_user\": null,\r\n    \"user_requested\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/matches/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"matches",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a match",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The match is updated.\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"user_accepted\": true,\r\n    \"is_active\": true,\r\n    \"current_user\": 1,\r\n    \"user_requested\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "javascript"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/matches/:matchId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"matches",
+								":matchId"
+							],
+							"variable": [
+								{
+									"key": "matchId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a match",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The match is deleted.\", () => {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/matches/:matchId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"matches",
+								":matchId"
+							],
+							"variable": [
+								{
+									"key": "matchId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Root",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "API Root",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 03 Aug 2021 07:52:51 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "246"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"users\": \"http://127.0.0.1:8000/api/users/\",\n    \"profiles\": \"http://127.0.0.1:8000/api/profiles/\",\n    \"preferences\": \"http://127.0.0.1:8000/api/preferences/\",\n    \"interests\": \"http://127.0.0.1:8000/api/interests/\",\n    \"matches\": \"http://127.0.0.1:8000/api/matches/\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The user is successfully logout.\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/users/logout/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"logout",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Logout",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/logout/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"logout",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "12345",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Mira",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "basicUrl",
+			"value": "https://127.0.0.1:8000"
+		}
+	]
+}
