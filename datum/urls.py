@@ -1,12 +1,27 @@
 from django.urls import path, include
 from . import views
 from django.conf.urls import include, re_path
-from .views import HomepageView, ProfileDetailView, UserDetailView, UserListView, UserLoginView, ProfileUpdateView, PreferenceUpdateView, DashboardView, UserMatchesListView
+from django.urls.conf import include
+from rest_framework import routers
+from datum.views import ProfileViewSet, UserViewSet, PreferenceViewsSet, InterestViewsSet, MatchViewsSet, HomepageView, ProfileDetailView, UserDetailView, UserListView, UserLoginView, ProfileUpdateView, PreferenceUpdateView, DashboardView, UserMatchesListView
+from django.urls import path
+from rest_framework import renderers
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'profiles', views.ProfileViewSet)
+router.register(r'preferences', views.PreferenceViewsSet)
+router.register(r'interests', views.InterestViewsSet)
+router.register(r'matches', views.MatchViewsSet)
+
 
 app_name = 'datum'
 
 urlpatterns = [
-    
+
+    path('api/', include(router.urls)),
+
     path('', views.DashboardView.as_view(), name='index'),
     path("your_matches/", views.UserMatchesListView.as_view(), name="matches"),
 

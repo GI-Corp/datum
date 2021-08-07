@@ -5,15 +5,25 @@ from rest_framework.utils import field_mapping
 from datum.models import User, Profile, Preference, Interest, Match
 
 class UserSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-
     class Meta:
         model = User
         fields = '__all__'
 
-class ProfileSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-    
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100)
+    password = serializers.CharField(max_length=100)
+
+    class Meta:
+        fields = ('username', 'password',)
+
+    def create(self, validated_data):
+        raise NotImplementedError
+
+    def update(self, validated_data):
+        raise NotImplementedError
+
+
+class ProfileSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Profile
         fields = '__all__'

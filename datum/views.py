@@ -1,5 +1,4 @@
 from django.contrib import auth, messages
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -19,6 +18,30 @@ from django.views.generic.list import ListView
 from datum.forms import PreferenceForm, ProfileForm, UserForm, UserLoginForm
 from datum.models import Interest, Match, Preference, Profile
 from datum.mixins import ProfileUpdatePermissionMixin, PreferenceUpdatePermissionMixing
+
+from django.contrib.auth import authenticate, login
+from rest_framework import authentication
+from rest_framework import response
+from datum.permissions import MatchAccessPermission, UserAccessPermission
+from datetime import datetime
+from django.db.models import manager, query
+from django.http import HttpResponse, JsonResponse, Http404
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import renderers, views
+from rest_framework.parsers import JSONParser
+from datum.serializers import UserSerializer, LoginSerializer, PreferenceSerializer, ProfileSerializer, InterestSerializer, MatchSerializer
+from rest_framework.views import APIView
+from rest_framework import serializers, status
+from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework import permissions
+from datum.permissions import IsOwnerOrReadOnly, InterestAccessPermission
+from rest_framework.reverse import reverse
+from rest_framework.decorators import api_view, authentication_classes, permission_classes, renderer_classes
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class HomepageView(LoginRequiredMixin, TemplateView):
     template_name = 'test/test.html'
@@ -174,3 +197,54 @@ class UserMatchesListView(LoginRequiredMixin, ListView):
         print(f'mutual match: {matches.all()}')        
         return matches
         
+# API
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [UserAccessPermission]
+
+    @action(detail=False, url_path='login', methods=['POST'], permission_classes=[AllowAny])
+    def login(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = auth.authenticate(
+            username=serializer.validated_data.get('username'),
+            password=serializer.validated_data.get('password')
+            )
+            auth.login(request, user)
+            return Response(user, {"Success, you are logged in!"}, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+ 
+    @action(detail=False, url_path='logout', methods=['POST'], permission_classes=[IsAuthenticated])
+    def logout(self, request):
+        auth.logout(request)
+        return Response(status=status.HTTP_200_OK)
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+class PreferenceViewsSet(viewsets.ModelViewSet):
+    queryset = Preference.objects.all()
+    serializer_class = PreferenceSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+class InterestViewsSet(viewsets.ModelViewSet):
+    queryset = Interest.objects.all()
+    serializer_class = InterestSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, InterestAccessPermission]
+
+class MatchViewsSet(viewsets.ModelViewSet):
+    queryset = Match.objects.all()
+    serializer_class = MatchSerializer
+    permission_classes = [permissions.IsAuthenticated, MatchAccessPermission]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_staff:
+            return queryset
+        return queryset.filter(current_user=self.request.user)
