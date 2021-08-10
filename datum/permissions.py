@@ -46,7 +46,6 @@ class UserAccessPermission(permissions.BasePermission):
             return obj == request.user or request.user.is_staff
 
         return False
-<<<<<<< HEAD
 
 class InterestAccessPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -55,5 +54,3 @@ class InterestAccessPermission(permissions.BasePermission):
         elif view.action in ['list', 'retrieve']:
             return request.user.is_authenticated
         return False
-=======
->>>>>>> 4f5bcd5439ce6912781b008a9d58e2e2de0b1a5c

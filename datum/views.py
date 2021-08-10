@@ -35,11 +35,7 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-<<<<<<< HEAD
 from datum.permissions import IsOwnerOrReadOnly, InterestAccessPermission
-=======
-from datum.permissions import IsOwnerOrReadOnly
->>>>>>> 4f5bcd5439ce6912781b008a9d58e2e2de0b1a5c
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, renderer_classes
 from rest_framework import viewsets
@@ -240,11 +236,7 @@ class PreferenceViewsSet(viewsets.ModelViewSet):
 class InterestViewsSet(viewsets.ModelViewSet):
     queryset = Interest.objects.all()
     serializer_class = InterestSerializer
-<<<<<<< HEAD
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, InterestAccessPermission]
-=======
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
->>>>>>> 4f5bcd5439ce6912781b008a9d58e2e2de0b1a5c
 
 class MatchViewsSet(viewsets.ModelViewSet):
     queryset = Match.objects.all()
