@@ -269,10 +269,12 @@ class PreferenceViewsSet(viewsets.ModelViewSet):
     def get_queryset(self):
         accepted_matches = Match.objects.filter(
             current_user=self.request.user, 
-            user_accepted=True).values_list('user_requested', flat=True).distinct()
+            user_accepted=True
+            ).values_list('user_requested', flat=True).distinct()
+
         if accepted_matches:
             return Preference.objects.filter(user__in=accepted_matches)
-        return [{}]
+        return Preference.objects.filter(user=self.request.user)
 
 class InterestViewsSet(viewsets.ModelViewSet):
     queryset = Interest.objects.all()

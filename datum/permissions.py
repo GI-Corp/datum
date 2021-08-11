@@ -45,11 +45,13 @@ class ProfileAccessPermission(permissions.BasePermission):
 
 class PreferenceAccessPermission(permissions.BasePermission):
     def has_permission(self, request, view):
-        if view.action == 'create':
-            return request.user.is_staff
+        if view.action in ['create', 'destroy']:
+            return False
         return True
 
     def has_object_permission(self, request, view, obj):
-        if view.action in ['list', 'retrieve', 'update', 'destroy']:
-            return obj.user == request.user or request.user.is_staff
+        if view.action == 'update':
+            return obj.user == request.user
+        if view.action in ['list', 'retrieve']:
+            return True
         return False
