@@ -1,5 +1,6 @@
 from django.http import response
-from django.test import TestCase, SimpleTestCase, testcases
+from django.test import TestCase, SimpleTestCase, Client
+from django.urls import reverse
 
 from datum.models import User, Profile, Preference
 
@@ -11,7 +12,7 @@ class SimpleTests(SimpleTestCase): # SimpleTestCase used to test with no db
 class PostUserTest(TestCase): # TestCase used to work with db
 
     # any method that starts with 'test' - django will automatically run when you type in python manage.py test
-    
+
     def setUp(self):
        User.objects.create(username='testuser', password='12345testuser')
     
@@ -31,3 +32,12 @@ class PostUserTest(TestCase): # TestCase used to work with db
         if preference:
             return True
         return False
+
+    def test_profile_update_profile(self):
+        profile = Profile.objects.get(user=User.objects.get(username='testuser'))
+        response = self.client.post(reverse('update_profile', args='profile.pk')), 
+        {
+            'first_name': 'gicorp',
+            'last_name': 'gov',
+        }
+        self.assertEqual(response.status_code, 302)

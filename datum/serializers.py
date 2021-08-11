@@ -7,7 +7,7 @@ from datum.models import User, Profile, Preference, Interest, Match
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password',)
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=100)
@@ -27,6 +27,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+class ProfileSerializerRestricted(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('id', 'tg_username', 'first_name', 'last_name')
 
 class PreferenceSerializer(serializers.ModelSerializer):
     class Meta:

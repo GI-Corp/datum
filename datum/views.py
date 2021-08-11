@@ -1,15 +1,20 @@
+from os import stat
+from urllib.parse import urlparse
 from django.contrib import auth, messages
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.context_processors import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.base import Model
+from django.db.models.query_utils import select_related_descend
 from django.forms.models import ModelForm
 from django.http import request
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls.base import reverse, reverse_lazy
+from django.utils.timezone import deactivate
 from django.views.generic import CreateView, DetailView
 from django.views.generic.base import RedirectView, TemplateView, View
 from django.views.generic.edit import DeleteView, FormView, UpdateView
@@ -18,28 +23,41 @@ from django.views.generic.list import ListView
 from datum.forms import PreferenceForm, ProfileForm, UserForm, UserLoginForm
 from datum.models import Interest, Match, Preference, Profile
 from datum.mixins import ProfileUpdatePermissionMixin, PreferenceUpdatePermissionMixing
+from django.db.models import Q
 
 from django.contrib.auth import authenticate, login
 from rest_framework import authentication
 from rest_framework import response
-from datum.permissions import MatchAccessPermission, UserAccessPermission
+from datum.permissions import (
+    MatchAccessPermission,
+    UserAccessPermission, 
+    ProfileAccessPermission, 
+    PreferenceAccessPermission,
+    InterestAccessPermission,
+    )
 from datetime import datetime
 from django.db.models import manager, query
 from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import renderers, views
 from rest_framework.parsers import JSONParser
-from datum.serializers import UserSerializer, LoginSerializer, PreferenceSerializer, ProfileSerializer, InterestSerializer, MatchSerializer
+from datum.serializers import (
+    UserSerializer,
+    LoginSerializer, 
+    PreferenceSerializer, 
+    ProfileSerializer, 
+    InterestSerializer, 
+    MatchSerializer,
+    ProfileSerializerRestricted,
+    )
 from rest_framework.views import APIView
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from datum.permissions import IsOwnerOrReadOnly, InterestAccessPermission
 from rest_framework.reverse import reverse
-from rest_framework.decorators import api_view, authentication_classes, permission_classes, renderer_classes
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -225,18 +243,41 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, ProfileAccessPermission]
+    
+    def get_queryset(self):
+        accepted_matches = Match.objects.filter(
+            current_user=self.request.user, 
+            user_accepted=True
+            ).values_list('user_requested', flat=True).distinct()
+
+        if accepted_matches:
+            return Profile.objects.filter(user__in=accepted_matches)
+        return Profile.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProfileSerializerRestricted
+        return ProfileSerializer
+        
 
 class PreferenceViewsSet(viewsets.ModelViewSet):
     queryset = Preference.objects.all()
     serializer_class = PreferenceSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, PreferenceAccessPermission]
+
+    def get_queryset(self):
+        accepted_matches = Match.objects.filter(
+            current_user=self.request.user, 
+            user_accepted=True).values_list('user_requested', flat=True).distinct()
+        if accepted_matches:
+            return Preference.objects.filter(user__in=accepted_matches)
+        return [{}]
 
 class InterestViewsSet(viewsets.ModelViewSet):
     queryset = Interest.objects.all()
     serializer_class = InterestSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, InterestAccessPermission]
+    permission_classes = [permissions.IsAuthenticated, InterestAccessPermission]
 
 class MatchViewsSet(viewsets.ModelViewSet):
     queryset = Match.objects.all()
