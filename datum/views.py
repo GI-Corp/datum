@@ -7,6 +7,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.context_processors import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models.base import Model
 from django.db.models.query_utils import select_related_descend
 from django.forms.models import ModelForm
@@ -95,7 +96,14 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     template_name = 'test/profile_create.html'
-    success_url = reverse_lazy('datum:index')    
+    success_url = reverse_lazy('datum:index')
+
+    def dispatch(self, request, *args, **kwargs): 
+        # in dispatch, most common place to customize GCBV, since dispatch() is called first.   
+        obj = self.get_object()
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 class PreferenceUpdateView(LoginRequiredMixin, UpdateView):
     model = Preference
@@ -103,15 +111,39 @@ class PreferenceUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'test/update_preference.html'
     success_url = reverse_lazy('datum:index')
 
+    def dispatch(self, request, *args, **kwargs): 
+        obj = self.get_object()
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'test/profile_details.html'
     context_object_name = 'profile'
 
+    def dispatch(self, request, *args, **kwargs): 
+        obj = self.get_object()
+        if Match.objects.filter(
+            Q(current_user=obj.user, user_requested=self.request.user, user_accepted=True) | 
+            Q(current_user=self.request.user, user_requested=obj.user, user_accepted=True)
+            ):
+            return super().dispatch(request, *args, **kwargs)
+        raise PermissionDenied
+
 class PreferenceDetailView(LoginRequiredMixin, DetailView):
     model = Preference
     template_name = 'test/preference_details.html'
     context_object_name = 'preference'
+
+    def dispatch(self, request, *args, **kwargs): 
+        obj = self.get_object()
+        if Match.objects.filter(
+            Q(current_user=obj.user, user_requested=self.request.user, user_accepted=True) | 
+            Q(current_user=self.request.user, user_requested=obj.user, user_accepted=True)
+            ):
+            return super().dispatch(request, *args, **kwargs)
+        raise PermissionDenied
 
 class DashboardView(LoginRequiredMixin, ListView, TemplateView, View):
     model = Profile
@@ -214,6 +246,13 @@ class UserMatchesListView(LoginRequiredMixin, ListView):
     
         print(f'mutual match: {matches.all()}')        
         return matches
+
+    def get_queryset(self):
+        user_matches = Match.objects.filter(
+            Q(user_requested=self.request.user, user_accepted=True) | 
+            Q(current_user=self.request.user, user_accepted=True)
+            )
+        return user_matches
         
 # API
 
