@@ -4,21 +4,26 @@ from django.core.exceptions import ValidationError
 from datum.models import Match, Preference, Profile
 
 class MatchAccessPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if view.action == 'create':
+            return False
+        return True
+
     def has_object_permission(self, request, view, obj):
-        if view.action in ['list', 'retrieve']:
+        if view.action in ['retrieve']:
             return obj.current_user == request.user or request.user.is_staff
         return False
 
 class UserAccessPermission(permissions.BasePermission):
     # надо чтобы user вышел чтобы мог создать новый аккаунт
+    # in serializers.py using validationError
     def has_permission(self, request, view):
         if view.action == 'create':
-            if request.user.is_authenticated:
-                raise ValidationError(message='You have to sign out to register a new user.')
+            return request.user.is_anonymous
         return True
 
     def has_object_permission(self, request, view, obj):
-        if view.action in ['list', 'retrieve', 'update', 'partial_update',  'destroy']:
+        if view.action in ['retrieve', 'update', 'partial_update',  'destroy']:
             return obj == request.user or request.user.is_staff
         return False
 
@@ -34,6 +39,8 @@ class ProfileAccessPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if view.action in ['create', 'destroy']:
             return False
+        if view.action == 'list':
+            return True
         return True
 
     def has_object_permission(self, request, view, obj):
@@ -47,6 +54,8 @@ class PreferenceAccessPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if view.action in ['create', 'destroy']:
             return False
+        if view.action == 'list':
+            return True
         return True
 
     def has_object_permission(self, request, view, obj):

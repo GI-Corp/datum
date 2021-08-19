@@ -269,10 +269,12 @@ class UserViewSet(viewsets.ModelViewSet):
             username=serializer.validated_data.get('username'),
             password=serializer.validated_data.get('password')
             )
+            
+            if user is None:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
             auth.login(request, user)
             return Response(user, {"Success, you are logged in!"}, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
  
     @action(detail=False, url_path='logout', methods=['POST'], permission_classes=[IsAuthenticated])
     def logout(self, request):
@@ -306,13 +308,6 @@ class PreferenceViewsSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, PreferenceAccessPermission]
 
     def get_queryset(self):
-        accepted_matches = Match.objects.filter(
-            current_user=self.request.user, 
-            user_accepted=True
-            ).values_list('user_requested', flat=True).distinct()
-
-        if accepted_matches:
-            return Preference.objects.filter(user__in=accepted_matches)
         return Preference.objects.filter(user=self.request.user)
 
 class InterestViewsSet(viewsets.ModelViewSet):

@@ -1,5 +1,7 @@
 from django.contrib.auth import models
+from django.core.exceptions import ValidationError
 from django.db.models import fields
+from django.http import request
 from rest_framework import serializers
 from rest_framework.utils import field_mapping
 from datum.models import User, Profile, Preference, Interest, Match
@@ -8,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password',)
-
+    
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=100)
     password = serializers.CharField(max_length=100)
